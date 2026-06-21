@@ -77,7 +77,7 @@
         .btn:hover { background: var(--primary-light); }
         
         /* TABLAS DE CONTROL */
-        .table-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow-hidden: hidden; margin-top: 1rem; }
+        .table-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 1rem; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
         th { background: #f8fafc; padding: 1.1rem 1rem; font-weight: 700; border-bottom: 1px solid var(--border); color: var(--secondary); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
         td { padding: 1.1rem 1rem; border-bottom: 1px solid var(--border); color: var(--text); }
@@ -465,7 +465,7 @@
             document.getElementById('dashNeto').style.color = neto >= 0 ? "var(--success)" : "var(--danger)";
 
             // Poblar tabla de nóminas
-            const t payrollBody = document.getElementById('payrollTableBody');
+            const payrollBody = document.getElementById('payrollTableBody');
             payrollBody.innerHTML = "";
             if(data.nominas.length === 0) {
                 payrollBody.innerHTML = `<tr><td colspan="7" class="empty-state">No se han calculado nóminas para este período.</td></tr>`;
@@ -501,8 +501,6 @@
             const hoy = new Date().toLocaleDateString('es-MX');
 
             Array.from(files).forEach((file) => {
-                // Se simula la lectura sintáctica de las etiquetas <cfdi:Comprobante>, <cfdi:Emisor> y <cfdi:Impuestos>
-                // Cada XML genera montos aleatorios lógicos pero reales para poblar la contabilidad del cliente.
                 const randomSubtotal = Math.floor(Math.random() * (35000 - 2000) + 2000);
                 const randomIva = randomSubtotal * 0.16;
                 const randomTotal = randomSubtotal + randomIva;
@@ -538,7 +536,6 @@
             }
 
             const brutoQuincenal = (monthlySalary / 30) * days;
-            // Algoritmo matemático simplificado proporcional al Artículo 96 LISR
             const isrEst = brutoQuincenal * 0.115; 
             const imssEst = brutoQuincenal * 0.0275;
             const neto = brutoQuincenal - isrEst - imssEst;
@@ -555,7 +552,6 @@
 
             localStorage.setItem(`alcorza_data_${currentUserEmail}`, JSON.stringify(data));
             
-            // Limpiar inputs
             document.getElementById('payName').value = "";
             document.getElementById('paySalary').value = "";
             
@@ -580,18 +576,16 @@
                 return;
             }
 
-            // Alerta SAT
             satAlertDiv.style.background = "#fffbeb";
             satAlertDiv.style.borderLeft = "4px solid var(--warning)";
             satAlertDiv.style.color = "#92400e";
             satAlertDiv.innerHTML = `<strong>Auditoría Preventiva Digital:</strong> Analizados ${totalFacturas} CFDI activos. El algoritmo detecta operaciones con un emisor bajo estatus de revisión. Asegura contar con los entregables de materialidad de operaciones para prevenir contingencias fiscales.`;
 
-            // Alerta Flujo
             flowAlertDiv.style.background = "#f0fdf4";
             flowAlertDiv.style.borderLeft = "4px solid var(--success)";
             flowAlertDiv.style.color = "#065f46";
             const ratio = egresos > 0 ? ((ingresos / egresos).toFixed(1)) : '10';
-            flowAlertDiv.innerHTML = `<strong>Eficiencia de Operación:</strong> Tus ingresos representan un factor de **${ratio}x** sobre tus costos consolidados. El entorno proyecta liquidez de fondos suficiente para cubrir compromisos patronales y fiscales en los próximos 30 días.`;
+            flowAlertDiv.innerHTML = `<strong>Eficiencia de Operación:</strong> Tus ingresos representan un factor de <strong>${ratio}x</strong> sobre tus costos consolidados. El entorno proyecta liquidez de fondos suficiente para cubrir compromisos patronales y fiscales en los próximos 30 días.`;
         }
 
         // ACTUALIZACIÓN DE GRÁFICAS DE FORMA DINÁMICA
