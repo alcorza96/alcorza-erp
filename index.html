@@ -18,54 +18,76 @@
             --border: #e2e8f0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* PANTALLA DE LOGIN */
+        .login-wrapper { position: fixed; inset: 0; background: var(--secondary); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; transition: opacity 0.3s ease; }
+        .login-card { background: var(--card-bg); width: 100%; max-width: 400px; padding: 2.5rem 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center; }
+        .login-logo { background: var(--primary); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.6rem; color: white; margin: 0 auto 1rem; }
+        .login-title { font-size: 1.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 0.25rem; letter-spacing: 0.5px; }
+        .login-subtitle { color: var(--text-light); font-size: 0.85rem; margin-bottom: 2rem; }
+        .error-message { background: #fee2e2; color: #b91c1c; font-size: 0.85rem; padding: 0.6rem; border-radius: 6px; margin-bottom: 1rem; display: none; text-align: left; border-left: 4px solid #b91c1c; }
+
+        /* INTERFAZ DEL ERP (OCULTA POR DEFECTO) */
+        .app-wrapper { display: none; flex-direction: column; flex: 1; }
+        
         header { background: var(--secondary); color: white; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .logo-area { display: flex; align-items: center; gap: 10px; }
         .logo-icon { background: var(--primary-light); width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
         .logo-text { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; }
-        .user-profile { font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); padding: 0.4rem 0.8rem; border-radius: 20px; background: rgba(255,255,255,0.05); }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .user-profile { font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); padding: 0.4rem 0.8rem; border-radius: 20px; background: rgba(255,255,255,0.05); color: #e2e8f0; }
+        .btn-logout { background: transparent; border: 1px solid #ef4444; color: #ef4444; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .btn-logout:hover { background: #ef4444; color: white; }
+
         .main-container { display: flex; flex: 1; position: relative; }
         nav { background: var(--card-bg); width: 240px; border-right: 1px solid var(--border); padding: 1.5rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 0.8rem 1.5rem; color: var(--text); text-decoration: none; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s; cursor: pointer; }
         .nav-item:hover, .nav-item.active { background: #f1f5f9; color: var(--primary); border-left-color: var(--primary); }
+        
         .content { flex: 1; padding: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; }
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.3s ease; }
+        
         .page-title { font-size: 1.75rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.5rem; }
         .page-subtitle { color: var(--text-light); margin-bottom: 2rem; font-size: 0.95rem; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 0.5rem; }
+        .stat-card { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; }
         .stat-label { font-size: 0.85rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; }
         .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--secondary); }
-        .stat-trend { font-size: 0.85rem; color: var(--success); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+        .stat-trend { font-size: 0.85rem; color: var(--success); font-weight: 500; }
+        
         .dashboard-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
-        .main-card { background: var(--card-bg); pading: 1.5rem; border-radius: 12px; border: 1px solid var(--border); min-height: 350px; padding: 1.5rem; }
-        .card-header { font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .main-card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 1.5rem; min-height: 350px; }
+        .card-header { font-size: 1.1rem; font-weight: 600; color: var(--secondary); margin-bottom: 1.5rem; }
+        
         .dropzone { border: 2px dashed var(--primary-light); background: #f0f6ff; border-radius: 12px; padding: 3rem 2rem; text-align: center; cursor: pointer; transition: background 0.2s; margin-bottom: 2rem; }
         .dropzone:hover { background: #e0ecff; }
         .dropzone p { margin-top: 10px; color: var(--text); font-weight: 500; }
         .dropzone span { font-size: 0.85rem; color: var(--text-light); display: block; margin-top: 5px; }
-        .btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; cursor: pointer; width: 100%; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.95rem; }
         .btn:hover { background: var(--primary-light); }
+        
         .table-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 1rem; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th { background: #f8fafc; padding: 1rem; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); }
-        td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text); }
-        tr:last-child td { border-bottom: none; }
+        th { background: #f8fafc; padding: 1rem; font-weight: 600; border-bottom: 1px solid var(--border); }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); }
         .badge { padding: 0.25rem 0.6rem; border-radius: 50px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
         .badge-success { background: #d1fae5; color: #065f46; }
         .badge-pending { background: #fef3c7; color: #92400e; }
+        
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; text-align: left; }
         .form-group label { font-size: 0.85rem; font-weight: 600; color: var(--text); }
-        .form-group input, .form-group select { padding: 0.6rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; outline: none; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary-light); }
+        .form-group input, .form-group select { padding: 0.6rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; outline: none; width: 100%; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) {
             .main-container { flex-direction: column; }
             nav { width: 100%; padding: 0.5rem; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); }
             .nav-item { padding: 0.5rem 1rem; white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; }
-            .nav-item:hover, .nav-item.active { border-left-color: transparent; border-bottom-color: var(--primary); }
+            .nav-item:hover, .nav-item.active { border-bottom-color: var(--primary); }
             .dashboard-layout { grid-template-columns: 1fr; }
             .content { padding: 1rem; }
         }
@@ -73,187 +95,241 @@
 </head>
 <body>
 
-    <header>
-        <div class="logo-area">
-            <div class="logo-icon">A</div>
-            <div class="logo-text">ALCORZA</div>
+    <div id="loginScreen" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">A</div>
+            <h2 class="login-title">ALCORZA</h2>
+            <p class="login-subtitle">ERP Financiero & Consultoría</p>
+            
+            <div id="loginError" class="error-message">Usuario o contraseña incorrectos.</div>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="loginEmail" placeholder="cliente@empresa.com" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label>Contraseña</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Ingresar al Panel</button>
+            </form>
         </div>
-        <div class="user-profile">Panel Administrativo</div>
-    </header>
+    </div>
 
-    <div class="main-container">
-        <nav>
-            <div class="nav-item active" onclick="switchView('dashboard')">📊 Dashboard</div>
-            <div class="nav-item" onclick="switchView('cfdi')">📄 Módulo CFDI</div>
-            <div class="nav-item" onclick="switchView('payroll')">💼 Nóminas</div>
-            <div class="nav-item" onclick="switchView('reports')">🤖 Inteligencia Financiera</div>
-        </nav>
+    <div id="appScreen" class="app-wrapper">
+        <header>
+            <div class="logo-area">
+                <div class="logo-icon">A</div>
+                <div class="logo-text">ALCORZA</div>
+            </div>
+            <div class="header-right">
+                <div class="user-profile" id="userDisplay">Cliente Activo</div>
+                <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+            </div>
+        </header>
 
-        <main class="content">
-            <!-- DASHBOARD -->
-            <section id="dashboard" class="view-section active">
-                <h1 class="page-title">Dashboard General</h1>
-                <p class="page-subtitle">Vista unificada de la salud financiera de la empresa</p>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-label">Ingresos Mensuales</span>
-                        <span class="stat-value">$245,800.00</span>
-                        <span class="stat-trend">▲ +12.4% vs mes anterior</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Egresos Operativos</span>
-                        <span class="stat-value">$112,450.00</span>
-                        <span class="stat-trend" style="color: #ef4444;">▼ +4.2% incremento</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Retenciones SAT</span>
-                        <span class="stat-value">$34,210.00</span>
-                        <span class="stat-label" style="text-transform:none; margin-top:5px;">ISR e IVA por enterar</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Disponibilidad Bancaria</span>
-                        <span class="stat-value">$684,120.00</span>
-                        <span class="badge badge-success" style="width: fit-content; margin-top:5px;">Estructura Óptima</span>
-                    </div>
-                </div>
+        <div class="main-container">
+            <nav>
+                <div class="nav-item active" onclick="switchView('dashboard')">📊 Dashboard</div>
+                <div class="nav-item" onclick="switchView('cfdi')">📄 Módulo CFDI</div>
+                <div class="nav-item" onclick="switchView('payroll')">💼 Nóminas</div>
+                <div class="nav-item" onclick="switchView('reports')">🤖 Inteligencia Financiera</div>
+            </nav>
 
-                <div class="dashboard-layout">
+            <main class="content">
+                <section id="dashboard" class="view-section active">
+                    <h1 class="page-title">Dashboard General</h1>
+                    <p class="page-subtitle">Vista unificada de la salud financiera de la empresa</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-label">Ingresos Mensuales</span>
+                            <span class="stat-value">$245,800.00</span>
+                            <span class="stat-trend">▲ +12.4% vs mes anterior</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Egresos Operativos</span>
+                            <span class="stat-value">$112,450.00</span>
+                            <span class="stat-trend" style="color: #ef4444;">▼ +4.2% incremento</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Retenciones SAT</span>
+                            <span class="stat-value">$34,210.00</span>
+                            <span class="stat-label" style="text-transform:none; margin-top:5px;">ISR e IVA por enterar</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Disponibilidad Bancaria</span>
+                            <span class="stat-value">$684,120.00</span>
+                            <span class="badge badge-success" style="width: fit-content; margin-top:5px;">Estructura Óptima</span>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-layout">
+                        <div class="main-card">
+                            <div class="card-header">Flujo de Caja Anual</div>
+                            <canvas id="flowChart" style="max-height: 280px;"></canvas>
+                        </div>
+                        <div class="main-card">
+                            <div class="card-header">Distribución de Gastos</div>
+                            <canvas id="pieChart" style="max-height: 280px;"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="cfdi" class="view-section">
+                    <h1 class="page-title">Carga de Comprobantes Fiscales</h1>
+                    <p class="page-subtitle">Procesamiento masivo de archivos XML de ingresos y egresos</p>
+                    
+                    <div class="dropzone" onclick="document.getElementById('xmlInput').click()">
+                        <input type="file" id="xmlInput" multiple accept=".xml" style="display:none;" onchange="handleXMLUpload(this.files)">
+                        <svg width="48" height="48" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24" style="margin: 0 auto 10px;"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                        <p>Arrastra tus archivos XML aquí o haz clic para explorar</p>
+                        <span>Soporta carga múltiple de facturas CFDI 4.0</span>
+                    </div>
+
                     <div class="main-card">
-                        <div class="card-header">Flujo de Caja Anual</div>
-                        <canvas id="flowChart" style="max-height: 280px;"></canvas>
+                        <div class="card-header">Historial de Comprobantes Procesados</div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Folio Fiscal (UUID)</th>
+                                        <th>RFC Emisor/Receptor</th>
+                                        <th>Tipo</th>
+                                        <th>Subtotal</th>
+                                        <th>Impuestos</th>
+                                        <th>Total</th>
+                                        <th>Estatus SAT</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="xmlTableBody">
+                                    <tr>
+                                        <td>4A5B6C7D-...-1A2B</td>
+                                        <td>XAXX010101000</td>
+                                        <td>Ingreso</td>
+                                        <td>$50,000.00</td>
+                                        <td>$8,000.00</td>
+                                        <td>$58,000.00</td>
+                                        <td><span class="badge badge-success">Vigente</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </section>
+
+                <section id="payroll" class="view-section">
+                    <h1 class="page-title">Cálculo de Nómina e IMSS</h1>
+                    <p class="page-subtitle">Gestión automatizada de dispersión de sueldos y timbrado</p>
+                    
+                    <div class="main-card" style="margin-bottom: 2rem;">
+                        <div class="card-header">Nueva Dispersión de Nómina</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Periodo de Pago</label>
+                                <select><option>Quincena 1 - Junio 2026</option><option>Quincena 2 - Junio 2026</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Registro Patronal</label>
+                                <input type="text" placeholder="A1234567810" value="A1234567810">
+                            </div>
+                            <div class="form-group">
+                                <label>Días del Periodo</label>
+                                <input type="number" value="15">
+                            </div>
+                        </div>
+                        <button class="btn" style="width:auto;">⚡ Calcular Nómina Masiva</button>
+                    </div>
+
                     <div class="main-card">
-                        <div class="card-header">Distribución de Gastos</div>
-                        <canvas id="pieChart" style="max-height: 280px;"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CFDI MODULE -->
-            <section id="cfdi" class="view-section">
-                <h1 class="page-title">Carga de Comprobantes Fiscales</h1>
-                <p class="page-subtitle">Procesamiento masivo de archivos XML de ingresos y egresos</p>
-                
-                <div class="dropzone" onclick="document.getElementById('xmlInput').click()">
-                    <input type="file" id="xmlInput" multiple accept=".xml" style="display:none;" onchange="handleXMLUpload(this.files)">
-                    <svg width="48" height="48" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24" style="margin: 0 auto 10px;"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                    <p>Arrastra tus archivos XML aquí o haz clic para explorar</p>
-                    <span>Soporta carga múltiple de facturas CFDI 4.0</span>
-                </div>
-
-                <div class="main-card">
-                    <div class="card-header">Historial de Comprobantes Procesados</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Folio Fiscal (UUID)</th>
-                                    <th>RFC Emisor/Receptor</th>
-                                    <th>Tipo</th>
-                                    <th>Subtotal</th>
-                                    <th>Impuestos</th>
-                                    <th>Total</th>
-                                    <th>Estatus SAT</th>
-                                </tr>
-                            </thead>
-                            <tbody id="xmlTableBody">
-                                <tr>
-                                    <td>4A5B6C7D-...-1A2B</td>
-                                    <td>XAXX010101000</td>
-                                    <td>Ingreso</td>
-                                    <td>$50,000.00</td>
-                                    <td>$8,000.00</td>
-                                    <td>$58,000.00</td>
-                                    <td><span class="badge badge-success">Vigente</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAYROLL MODULE -->
-            <section id="payroll" class="view-section">
-                <h1 class="page-title">Cálculo de Nómina e IMSS</h1>
-                <p class="page-subtitle">Gestión automatizada de dispersión de sueldos y timbrado</p>
-                
-                <div class="main-card" style="margin-bottom: 2rem;">
-                    <div class="card-header">Nueva Dispersión de Nómina</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Periodo de Pago</label>
-                            <select><option>Quincena 1 - Junio 2026</option><option>Quincena 2 - Junio 2026</option></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Registro Patronal</label>
-                            <input type="text" placeholder="A1234567810" value="A1234567810">
-                        </div>
-                        <div class="form-group">
-                            <label>Días del Periodo</label>
-                            <input type="number" value="15">
+                        <div class="card-header">Prenómina de Empleados</div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Empleado</th>
+                                        <th>Sueldo Diario</th>
+                                        <th>Días Trab.</th>
+                                        <th>Percepciones</th>
+                                        <th>Deducciones (ISR/IMSS)</th>
+                                        <th>Neto a Pagar</th>
+                                        <th>Estatus Timbrado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Daniel Zavala</td>
+                                        <td>$1,200.00</td>
+                                        <td>15</td>
+                                        <td>$18,000.00</td>
+                                        <td>$3,150.00</td>
+                                        <td style="font-weight: 600; color: var(--primary);">$14,850.00</td>
+                                        <td><span class="badge badge-pending">Pendiente Timbrar</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <button class="btn">⚡ Calcular Nómina Masiva</button>
-                </div>
+                </section>
 
-                <div class="main-card">
-                    <div class="card-header">Prenómina de Empleados</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Empleado</th>
-                                    <th>Sueldo Diario</th>
-                                    <th>Días Trab.</th>
-                                    <th>Percepciones</th>
-                                    <th>Deducciones (ISR/IMSS)</th>
-                                    <th>Neto a Pagar</th>
-                                    <th>Estatus Timbrado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Daniel Zavala</td>
-                                    <td>$1,200.00</td>
-                                    <td>15</td>
-                                    <td>$18,000.00</td>
-                                    <td>$3,150.00</td>
-                                    <td style="font-weight: 600; color: var(--primary);">$14,850.00</td>
-                                    <td><span class="badge badge-pending">Pendiente Timbrar</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- AI REPORTS MODULE -->
-            <section id="reports" class="view-section">
-                <h1 class="page-title">Inteligencia Financiera AI</h1>
-                <p class="page-subtitle">Análisis predictivo de flujo e identificación de contingencias fiscales</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    <div class="main-card">
-                        <div class="card-header" style="color: var(--primary-light);">🛡️ Auditoría Preventiva SAT</div>
-                        <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
-                            <strong>Alerta de Discrepancia Analizada por AI:</strong> Se detectó una variación del 3.5% entre las retenciones de ISR manifestadas en los CFDI de nómina emitidos y los montos prellenados en la plataforma de declaraciones. Se sugiere revisión antes del cierre de mes.
+                <section id="reports" class="view-section">
+                    <h1 class="page-title">Inteligencia Financiera AI</h1>
+                    <p class="page-subtitle">Análisis predictivo de flujo e identificación de contingencias fiscales</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="main-card">
+                            <div class="card-header" style="color: var(--primary-light);">🛡️ Auditoría Preventiva SAT</div>
+                            <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 4px; margin-bottom: 1rem; font-size: 0.9rem;">
+                                <strong>Alerta de Discrepancia Analizada por AI:</strong> Se detectó una variación del 3.5% entre las retenciones de ISR manifestadas en los CFDI de nómina emitidos y los montos prellenados en la plataforma de declaraciones. Se sugiere revisión antes del cierre de mes.
+                            </div>
+                            <p style="font-size: 0.9rem; color: var(--text);">Nuestra inteligencia simula los algoritmos de revisión automatizada de la autoridad fiscal para mitigar cartas invitación o auditorías sorpresa.</p>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text);">Nuestra inteligencia simula los algoritmos de revisión automatizada de la autoridad fiscal para mitigar cartas invitación o auditorías sorpresa.</p>
-                    </div>
-                    <div class="main-card">
-                        <div class="card-header" style="color: var(--success);">📈 Optimización Financiera y Flujo</div>
-                        <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem;">Con base en los patrones históricos de cobranza y facturación, el sistema proyecta una disponibilidad de caja de <strong>$720,000.00</strong> para los próximos 45 días.</p>
-                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1rem; border-radius: 8px; font-size: 0.85rem;">
-                            <strong>Recomendación Estratégica:</strong> Espacio idóneo para liquidación anticipada de proveedores clave con solicitud de descuento comercial, optimizando el margen neto de operación.
+                        <div class="main-card">
+                            <div class="card-header" style="color: var(--success);">📈 Optimización Financiera y Flujo</div>
+                            <p style="font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem;">Con base en los patrones históricos de cobranza y facturación, el sistema proyecta una disponibilidad de caja de <strong>$720,000.00</strong> para los próximos 45 días.</p>
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1rem; border-radius: 8px; font-size: 0.85rem;">
+                                <strong>Recomendación Estratégica:</strong> Espacio idóneo para liquidación anticipada de proveedores clave con solicitud de descuento comercial, optimizando el margen neto de operación.
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </main>
+                </section>
+            </main>
+        </div>
     </div>
 
     <script>
+        // CREDENCIALES TEMPORALES DE ACCESO
+        const DEMO_USER = "admin@alcorza.com";
+        const DEMO_PASS = "123456";
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (email === DEMO_USER && pass === DEMO_PASS) {
+                errorDiv.style.display = "none";
+                document.getElementById('loginScreen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('loginScreen').style.display = "none";
+                    document.getElementById('appScreen').style.display = "flex";
+                    document.getElementById('userDisplay').innerText = email;
+                    renderCharts();
+                }, 300);
+            } else {
+                errorDiv.style.display = "block";
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('appScreen').style.display = "none";
+            document.getElementById('loginScreen').style.display = "flex";
+            document.getElementById('loginScreen').style.opacity = "1";
+            document.getElementById('loginPassword').value = "";
+        }
+
         function switchView(viewId) {
             document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -277,33 +353,34 @@
                     `;
                     tbody.insertBefore(row, tbody.firstChild);
                 });
-                alert(`${files.length} archivo(s) cargado(s) y procesado(s) en la interfaz del prototipo.`);
+                alert(`${files.length} archivo(s) cargado(s) y procesado(s).`);
             }
         }
 
-        // CHARTS SETUP
-        const ctxFlow = document.getElementById('flowChart').getContext('2d');
-        new Chart(ctxFlow, {
-            type: 'line',
-            data: {
-                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
-                datasets: [
-                    { label: 'Ingresos', data: [180, 200, 210, 195, 230, 245], borderColor: '#3b82f6', tension: 0.3, fill: false },
-                    { label: 'Egresos', data: [100, 105, 115, 110, 108, 112], borderColor: '#94a3b8', tension: 0.3, fill: false }
-                ]
-            },
-            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-        });
+        function renderCharts() {
+            const ctxFlow = document.getElementById('flowChart').getContext('2d');
+            new Chart(ctxFlow, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                    datasets: [
+                        { label: 'Ingresos', data: [180, 200, 210, 195, 230, 245], borderColor: '#3b82f6', tension: 0.3, fill: false },
+                        { label: 'Egresos', data: [100, 105, 115, 110, 108, 112], borderColor: '#94a3b8', tension: 0.3, fill: false }
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
 
-        const ctxPie = document.getElementById('pieChart').getContext('2d');
-        new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: ['Nóminas', 'Operación', 'Impuestos', 'Logística'],
-                datasets: [{ data: [55, 20, 15, 10], backgroundColor: ['#1e3a8a', '#3b82f6', '#f59e0b', '#e2e8f0'] }]
-            },
-            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-        });
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Nóminas', 'Operación', 'Impuestos', 'Logística'],
+                    datasets: [{ data: [55, 20, 15, 10], backgroundColor: ['#1e3a8a', '#3b82f6', '#f59e0b', '#e2e8f0'] }]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
     </script>
 </body>
 </html>
