@@ -105,9 +105,7 @@
 </head>
 <body>
 
-    <!-- CONTROL ACCESO INTELIGENTE -->
     <div id="loginScreen" class="login-wrapper">
-        <!-- ACCESO -->
         <div class="login-card" id="loginCard">
             <div class="login-logo">A</div>
             <h2 class="login-title">ALCORZA</h2>
@@ -130,7 +128,6 @@
             <div class="switch-form-link" onclick="toggleForms('register')">¿Eres un cliente nuevo? Registra tu empresa aquí</div>
         </div>
 
-        <!-- REGISTRO AUTÓNOMO -->
         <div class="login-card" id="registerCard" style="display: none;">
             <div class="login-logo" style="background: var(--success);">+</div>
             <h2 class="login-title">Alta de Cliente</h2>
@@ -157,7 +154,6 @@
         </div>
     </div>
 
-    <!-- ENTORNO EXCLUSIVO DE TRABAJO -->
     <div id="appScreen" class="app-wrapper">
         <header>
             <div class="logo-area">
@@ -179,7 +175,6 @@
             </nav>
 
             <main class="content">
-                <!-- DASHBOARD EXCLUSIVO -->
                 <section id="dashboard" class="view-section active">
                     <h1 class="page-title">Métricas de Control</h1>
                     <p class="page-subtitle">Cálculos financieros basados exclusivamente en tus XML cargados</p>
@@ -215,7 +210,6 @@
                     </div>
                 </section>
 
-                <!-- CFDI PROCESAMIENTO REAL -->
                 <section id="cfdi" class="view-section">
                     <h1 class="page-title">Procesador de Facturas</h1>
                     <p class="page-subtitle">Sube tus archivos XML para leerlos de manera inteligente, extraer montos y estructurar tu contabilidad</p>
@@ -243,14 +237,12 @@
                                     </tr>
                                 </thead>
                                 <tbody id="xmlTableBody">
-                                    <!-- Dinámico por cliente -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
 
-                <!-- NÓMINAS -->
                 <section id="payroll" class="view-section">
                     <h1 class="page-title">Estructura de Nóminas</h1>
                     <p class="page-subtitle">Simulador y cálculo masivo de retenciones de ISR y cuotas de seguridad social</p>
@@ -290,14 +282,12 @@
                                     </tr>
                                 </thead>
                                 <tbody id="payrollTableBody">
-                                    <!-- Dinámico por cliente -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
 
-                <!-- AUDITORÍA E INTELIGENCIA ARTIFICIAL -->
                 <section id="reports" class="view-section">
                     <h1 class="page-title">Módulo de Auditoría AI</h1>
                     <p class="page-subtitle">Análisis predictivo en tiempo real basado exclusivamente en los comprobantes fiscales que has aportado</p>
@@ -306,14 +296,12 @@
                         <div class="main-card">
                             <div class="card-header" style="color: var(--primary-light);">🛡️ Auditoría Preventiva EFOS/EDOS</div>
                             <div id="aiAlertSAT" style="padding: 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; line-height: 1.5;">
-                                <!-- Dinámico -->
-                            </div>
+                                </div>
                         </div>
                         <div class="main-card">
                             <div class="card-header" style="color: var(--success);">📈 Proyección e Inteligencia Financiera</div>
                             <div id="aiAlertFlow" style="padding: 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; line-height: 1.5;">
-                                <!-- Dinámico -->
-                            </div>
+                                </div>
                         </div>
                     </div>
                 </section>
@@ -330,7 +318,7 @@
         // Inicializar cuentas maestras si la base no existe en el navegador
         if (!localStorage.getItem('alcorza_users')) {
             const masterDB = {
-                "admin@alcorza.com": { pass: "123456", name: "Alcorza Master Administrador" }
+                "admin@alcorza.com": { pass: "123456", name: "Alcorza Master Administrator" }
             };
             localStorage.setItem('alcorza_users', JSON.stringify(masterDB));
         }
@@ -397,7 +385,6 @@
                 document.getElementById('loginSuccess').style.display = "none";
                 document.getElementById('loginScreen').style.opacity = "0";
                 
-                // Asegurar existencia de almacenamiento para cuentas viejas que no lo tengan
                 if (!localStorage.getItem(`alcorza_data_${email}`)) {
                     localStorage.setItem(`alcorza_data_${email}`, JSON.stringify({ facturas: [], nominas: [] }));
                 }
@@ -407,7 +394,6 @@
                     document.getElementById('appScreen').style.display = "flex";
                     document.getElementById('userDisplay').innerText = users[email].name;
                     
-                    // Cargar los datos específicos del cliente logueado
                     renderClientWorkspace();
                 }, 300);
             } else {
@@ -424,7 +410,6 @@
             let countIngresos = 0;
             let countEgresos = 0;
 
-            // Limpiar y poblar tabla de comprobantes XML
             const tbody = document.getElementById('xmlTableBody');
             tbody.innerHTML = "";
 
@@ -454,7 +439,6 @@
                 });
             }
 
-            // Calcular indicadores matemáticos
             const neto = ingresos - egresos;
             const ivaEstimado = ingresos * 0.16;
 
@@ -464,7 +448,6 @@
             document.getElementById('dashNeto').innerText = `$${neto.toLocaleString('es-MX', {minimumFractionDigits:2})}`;
             document.getElementById('dashNeto').style.color = neto >= 0 ? "var(--success)" : "var(--danger)";
 
-            // Poblar tabla de nóminas
             const payrollBody = document.getElementById('payrollTableBody');
             payrollBody.innerHTML = "";
             if(data.nominas.length === 0) {
@@ -485,14 +468,10 @@
                 });
             }
 
-            // Actualizar Motores Gráficos Chart.js
             updateCharts(ingresos, egresos, countIngresos, countEgresos);
-
-            // Actualizar Inteligencia Artificial Contextual
             renderAICorpus(data.facturas.length, ingresos, egresos);
         }
 
-        // SIMULADOR DE LECTURA E INTERPRETACIÓN DE XML REALES
         function processRealXML(files) {
             if(files.length === 0) return;
 
@@ -524,7 +503,6 @@
             alert(`Sintaxis XML procesada con éxito. Se leyeron e integraron ${files.length} comprobante(s) a tu contabilidad.`);
         }
 
-        // MOTOR DE NÓMINA (ISR ART 96 E IMSS DINÁMICO)
         function addPayrollRow() {
             const name = document.getElementById('payName').value.trim();
             const monthlySalary = parseFloat(document.getElementById('paySalary').value);
@@ -558,7 +536,6 @@
             renderClientWorkspace();
         }
 
-        // AUDITORÍA ANALÍTICA AI SEGÚN LOS DATOS DEL CLIENTE
         function renderAICorpus(totalFacturas, ingresos, egresos) {
             const satAlertDiv = document.getElementById('aiAlertSAT');
             const flowAlertDiv = document.getElementById('aiAlertFlow');
@@ -588,7 +565,6 @@
             flowAlertDiv.innerHTML = `<strong>Eficiencia de Operación:</strong> Tus ingresos representan un factor de <strong>${ratio}x</strong> sobre tus costos consolidados. El entorno proyecta liquidez de fondos suficiente para cubrir compromisos patronales y fiscales en los próximos 30 días.`;
         }
 
-        // ACTUALIZACIÓN DE GRÁFICAS DE FORMA DINÁMICA
         function updateCharts(ingresos, egresos, countIngresos, countEgresos) {
             const ctxFlow = document.getElementById('flowChart').getContext('2d');
             const ctxPie = document.getElementById('pieChart').getContext('2d');
