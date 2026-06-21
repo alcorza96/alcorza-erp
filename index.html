@@ -105,7 +105,9 @@
 </head>
 <body>
 
+    <!-- CONTROL ACCESO INTELIGENTE -->
     <div id="loginScreen" class="login-wrapper">
+        <!-- ACCESO -->
         <div class="login-card" id="loginCard">
             <div class="login-logo">A</div>
             <h2 class="login-title">ALCORZA</h2>
@@ -128,6 +130,7 @@
             <div class="switch-form-link" onclick="toggleForms('register')">¿Eres un cliente nuevo? Registra tu empresa aquí</div>
         </div>
 
+        <!-- REGISTRO AUTÓNOMO -->
         <div class="login-card" id="registerCard" style="display: none;">
             <div class="login-logo" style="background: var(--success);">+</div>
             <h2 class="login-title">Alta de Cliente</h2>
@@ -154,6 +157,7 @@
         </div>
     </div>
 
+    <!-- ENTORNO EXCLUSIVO DE TRABAJO -->
     <div id="appScreen" class="app-wrapper">
         <header>
             <div class="logo-area">
@@ -175,6 +179,7 @@
             </nav>
 
             <main class="content">
+                <!-- DASHBOARD EXCLUSIVO -->
                 <section id="dashboard" class="view-section active">
                     <h1 class="page-title">Métricas de Control</h1>
                     <p class="page-subtitle">Cálculos financieros basados exclusivamente en tus XML cargados</p>
@@ -210,6 +215,7 @@
                     </div>
                 </section>
 
+                <!-- CFDI PROCESAMIENTO REAL -->
                 <section id="cfdi" class="view-section">
                     <h1 class="page-title">Procesador de Facturas</h1>
                     <p class="page-subtitle">Sube tus archivos XML para leerlos de manera inteligente, extraer montos y estructurar tu contabilidad</p>
@@ -237,12 +243,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="xmlTableBody">
-                                    </tbody>
+                                    <!-- Dinámico por cliente -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
 
+                <!-- NÓMINAS -->
                 <section id="payroll" class="view-section">
                     <h1 class="page-title">Estructura de Nóminas</h1>
                     <p class="page-subtitle">Simulador y cálculo masivo de retenciones de ISR y cuotas de seguridad social</p>
@@ -259,7 +267,7 @@
                                 <input type="number" id="paySalary" placeholder="Ej. 24000">
                             </div>
                             <div class="form-group">
-                                <label>Días Trabajados en la Quincena</label>
+                                <label>Días Trabajados in la Quincena</label>
                                 <input type="number" id="payDays" value="15">
                             </div>
                         </div>
@@ -282,12 +290,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="payrollTableBody">
-                                    </tbody>
+                                    <!-- Dinámico por cliente -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
 
+                <!-- AUDITORÍA E INTELIGENCIA ARTIFICIAL -->
                 <section id="reports" class="view-section">
                     <h1 class="page-title">Módulo de Auditoría AI</h1>
                     <p class="page-subtitle">Análisis predictivo en tiempo real basado exclusivamente en los comprobantes fiscales que has aportado</p>
@@ -296,12 +306,14 @@
                         <div class="main-card">
                             <div class="card-header" style="color: var(--primary-light);">🛡️ Auditoría Preventiva EFOS/EDOS</div>
                             <div id="aiAlertSAT" style="padding: 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; line-height: 1.5;">
-                                </div>
+                                <!-- Dinámico -->
+                            </div>
                         </div>
                         <div class="main-card">
                             <div class="card-header" style="color: var(--success);">📈 Proyección e Inteligencia Financiera</div>
                             <div id="aiAlertFlow" style="padding: 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; line-height: 1.5;">
-                                </div>
+                                <!-- Dinámico -->
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -323,17 +335,22 @@
             localStorage.setItem('alcorza_users', JSON.stringify(masterDB));
         }
 
-        // Navegación de formularios
+        // Navegación de formularios simplificada y segura
         function toggleForms(type) {
-            document.getElementById('loginError').style.display = "none";
-            document.getElementById('registerError').style.display = "none";
-            document.getElementById('loginSuccess').style.display = "none";
+            const loginCard = document.getElementById('loginCard');
+            const registerCard = document.getElementById('registerCard');
+            
+            // Ocultar avisos de error/éxito de forma segura si existen
+            const lErr = document.getElementById('loginError'); if(lErr) lErr.style.display = "none";
+            const rErr = document.getElementById('registerError'); if(rErr) rErr.style.display = "none";
+            const lSucc = document.getElementById('loginSuccess'); if(lSucc) lSucc.style.display = "none";
+
             if(type === 'register') {
-                document.getElementById('loginCard').style.display = "none";
-                document.getElementById('registerCard').style.display = "block";
+                loginCard.style.display = "none";
+                registerCard.style.display = "block";
             } else {
-                document.getElementById('registerCard').style.display = "none";
-                document.getElementById('loginCard').style.display = "block";
+                registerCard.style.display = "none";
+                loginCard.style.display = "block";
             }
         }
 
@@ -344,7 +361,7 @@
             const email = document.getElementById('regEmail').value.toLowerCase().trim();
             const pass = document.getElementById('regPassword').value;
             
-            let users = JSON.parse(localStorage.getItem('alcorza_users'));
+            let users = JSON.parse(localStorage.getItem('alcorza_users')) || {};
 
             if (users[email]) {
                 document.getElementById('registerError').style.display = "block";
@@ -360,15 +377,20 @@
                 };
                 localStorage.setItem(`alcorza_data_${email}`, JSON.stringify(clientData));
 
-                // Limpiar campos y notificar éxito
+                // Limpiar campos del formulario
                 document.getElementById('regName').value = "";
                 document.getElementById('regEmail').value = "";
                 document.getElementById('regPassword').value = "";
                 
+                // Cambiar vista al login
                 toggleForms('login');
+                
+                // Mostrar mensaje de éxito
                 const succ = document.getElementById('loginSuccess');
-                succ.innerText = `¡Entorno configurado con éxito para ${name}! Inicia sesión para comenzar.`;
-                succ.style.display = "block";
+                if(succ) {
+                    succ.innerText = `¡Entorno configurado con éxito para ${name}! Inicia sesión para comenzar.`;
+                    succ.style.display = "block";
+                }
             }
         }
 
@@ -377,12 +399,12 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.toLowerCase().trim();
             const pass = document.getElementById('loginPassword').value;
-            const users = JSON.parse(localStorage.getItem('alcorza_users'));
+            const users = JSON.parse(localStorage.getItem('alcorza_users')) || {};
 
             if (users[email] && users[email].pass === pass) {
                 currentUserEmail = email;
                 document.getElementById('loginError').style.display = "none";
-                document.getElementById('loginSuccess').style.display = "none";
+                if(document.getElementById('loginSuccess')) document.getElementById('loginSuccess').style.display = "none";
                 document.getElementById('loginScreen').style.opacity = "0";
                 
                 if (!localStorage.getItem(`alcorza_data_${email}`)) {
@@ -403,7 +425,7 @@
 
         // CARGA Y RENDERIZADO DEL ENTORNO AISLADO
         function renderClientWorkspace() {
-            const data = JSON.parse(localStorage.getItem(`alcorza_data_${currentUserEmail}`));
+            const data = JSON.parse(localStorage.getItem(`alcorza_data_${currentUserEmail}`)) || { facturas: [], nominas: [] };
             
             let ingresos = 0;
             let egresos = 0;
